@@ -11,7 +11,10 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
     </properties>
+
+
     <dependencies>
 
 
@@ -37,7 +40,99 @@
             <version>7.3.3</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.6.0</version>
+            <scope>test</scope>
+        </dependency>
+
+
 
     </dependencies>
+
+    <build>
+        <pluginManagement>
+        <plugins>
+
+            <!-- Suirefire plugin to run xml files -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <!-- TestNG suite XML files -->
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+            <!-- Post-Man plugin -->
+
+            <plugin>
+                <!-- https://mvnrepository.com/artifact/ch.fortysix/maven-postman-plugin -->
+                    <groupId>ch.fortysix</groupId>
+                    <artifactId>maven-postman-plugin</artifactId>
+                    <version>0.1.6</version>
+                <executions>
+                    <execution>
+
+                        <id>send a mail</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>send-mail</goal>
+                        </goals>
+                        <inherited>true</inherited>
+
+                        <configuration>
+                            <!-- From Email address -->
+                            <from>gokila.official12@gmail.com</from>
+
+                            <!--  Email subject -->
+                            <subject>Amazon Test Report</subject>
+
+                            <!-- Fail the build if the mail doesnt reach -->
+                            <failonerror>true</failonerror>
+
+                            <!-- host -->
+                            <mailhost>smtp.gmail.com</mailhost>
+                            <!-- port of the host -->
+                            <mailport>465</mailport>
+                            <mailssl>true</mailssl>
+                            <mailAltConfig>true</mailAltConfig>
+
+                            <!-- Email Authentication(USername and Password) -->
+                            <mailuser>gokila.official12@gmail.com</mailuser>
+                            <mailpassword>Gokesamu12@</mailpassword>
+
+                            <receivers>
+                                <!-- To Email address -->
+                                <receiver>gokeylaw125@gmail.com</receiver>
+                            </receivers>
+
+                            <fileSets>
+                                <fileSet>
+                                    <!-- Report directory Path -->
+                                    <directory>C:\Users\Gokila\IdeaProjects\AmazonProject\target\test-classes</directory>
+                                    <includes>
+                                        <!-- Report file name -->
+                                        <include>cucumber-reports.html</include>
+                                    </includes>
+                                    <!-- Use Regular Expressions like **/*.html if you want all the html files to send-->
+                                </fileSet>
+                            </fileSets>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+        </plugins>
+    </pluginManagement>
+    </build>
+
+
 
 </project>
